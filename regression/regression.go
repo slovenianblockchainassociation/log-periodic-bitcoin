@@ -5,14 +5,9 @@ import (
 	"math"
 )
 
-// cos(Omega*ln(Tc - t) + Phi)
-func cf(t, tc, omega, phi float64) float64 {
-	return math.Cos(omega*math.Log(tc-t) + phi)
-}
-
 // f(t) = A + B*(Tc - t)^Beta * (1 + C*cos(Omega*ln(Tc - t) + Phi))
 func f(t float64, p *Parameters) float64 {
-	return p.A + p.B*math.Pow(p.Tc-t, p.Beta)*(1+p.C*cf(t, p.Tc, p.Omega, p.Phi))
+	return p.A + p.B*math.Pow(p.Tc-t, p.Beta)*(1+p.C*math.Cos(p.Omega*math.Log(p.Tc-t) + p.Phi))
 }
 
 // cost function
