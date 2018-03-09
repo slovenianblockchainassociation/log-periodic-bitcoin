@@ -54,23 +54,3 @@ func InitRandomParameters(full bool) *Parameters {
 	}
 	return p
 }
-
-type LearningRate struct {
-	A     float64
-	B     float64
-	Tc    float64
-	Beta  float64
-	C     float64
-	Omega float64
-	Phi   float64
-}
-
-type StepSizes struct {
-	A     float64
-	B     float64
-	Tc    float64
-	Beta  float64
-	C     float64
-	Omega float64
-	Phi   float64
-}

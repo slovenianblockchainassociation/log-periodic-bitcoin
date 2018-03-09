@@ -37,7 +37,6 @@ func main() {
 
 	dataSet = limitDataSetByMaxDate(17.95, dataSet)
 
-	// random search code starts here
 	results := make(chan *worker.Result)
 	minCost := math.MaxFloat64
 
@@ -73,37 +72,4 @@ func main() {
 			}
 		}
 	}
-	// random search code ends here
-
-	//learningRate := &regression.LearningRate{
-	//	A: 10e-7,
-	//	B: 10e-7,
-	//	Tc: 10e-7,
-	//	Beta: 10e-7,
-	//}
-
-	//stepSizes := &regression.StepSizes{
-	//	A: 10,
-	//	B: 10,
-	//	Tc: 0.01,
-	//	Beta: 0.01,
-	//}
-
-	//regressor := worker.NewRegressor(learningRate)
-	//stepper := worker.NewStepper(stepSizes)
-	//clueless := worker.NewClueless()
-
-	//result := regressor.Work(dataSet)
-	//result := stepper.Work(dataSet)
-	//result := clueless.Work(dataSet)
-
-	//if math.IsNaN(result.J) {
-	//	fmt.Println("Try diverged")
-	//	return
-	//}
-	//
-	//err = worker.writeResults(result)
-	//if err != nil {
-	//	panic(err)
-	//}
 }
