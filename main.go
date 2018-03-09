@@ -53,7 +53,7 @@ func main() {
 
 	for i := 0; i < workers; i++ {
 		w := worker.New(i, paramRanges)
-		go w.Work(dataSet, results)
+		go w.WorkSmall(dataSet, results)
 	}
 
 	f, err := os.OpenFile("randomSearch.csv", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0600)
