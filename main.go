@@ -11,13 +11,15 @@ import (
 	"strconv"
 )
 
-func limitDataSetByMaxDate(maxDate float64, dataSet []models.DataPoint) []models.DataPoint {
-	for i, v := range dataSet {
-		if v.Date > maxDate {
-			return dataSet[:i]
-		}
-	}
-	return dataSet
+var paramRanges = map[string][3]float64{
+	// min, max, step, portion (calculated based on number of workers)
+	"A": {0, 100, 0.1},
+	"B": {-100, 0, 0.1},
+	"Tc": {18, 18.3, 0.01},
+	"Beta": {0.05, 0.25, 0.01},
+	"C": {0, 0.1, 0.01},
+	"Omega": {10, 30, 0.1},
+	"Phi": {0, 2*math.Pi, 0.1},
 }
 
 func main() {
@@ -35,7 +37,7 @@ func main() {
 		panic(err)
 	}
 
-	dataSet = limitDataSetByMaxDate(17.95, dataSet)
+	dataSet = models.LimitDataSetByMaxDate(17.95, dataSet)
 
 	results := make(chan *worker.Result)
 	minCost := math.MaxFloat64
@@ -50,8 +52,8 @@ func main() {
 	}
 
 	for i := 0; i < workers; i++ {
-		clueless := worker.NewClueless()
-		go clueless.Start(dataSet, results)
+		w := worker.New(i, paramRanges)
+		go w.Work(dataSet, results)
 	}
 
 	f, err := os.OpenFile("randomSearch.csv", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0600)
@@ -63,11 +65,17 @@ func main() {
 	for {
 		select {
 		case result := <- results:
+			if result.End {
+				workers--
+				if workers == 0 {
+					return
+				}
+			}
 			if result.J >= minCost {
 				continue
 			}
 			minCost = result.J
-			if _, err = f.WriteString(fmt.Sprintf("%.4f;%.2f %.2f %.2f %.2f\n", result.J, result.Params.A, result.Params.B, result.Params.Tc, result.Params.Beta)); err != nil {
+			if _, err = f.WriteString(fmt.Sprintf("%.4f;%.1f %.1f %.2f %.2f %.2f %.1f %.2f\n", result.J, result.A, result.B, result.Tc, result.Beta, result.C, result.Omega, result.Phi)); err != nil {
 				panic(err)
 			}
 		}

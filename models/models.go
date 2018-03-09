@@ -34,3 +34,12 @@ func UnixToDecimal(u int64) float64 {
 
 	return float64(t.Year()) + float64(t.YearDay())/float64(year.YearDay()) - 2000
 }
+
+func LimitDataSetByMaxDate(maxDate float64, dataSet []DataPoint) []DataPoint {
+	for i, v := range dataSet {
+		if v.Date > maxDate {
+			return dataSet[:i]
+		}
+	}
+	return dataSet
+}
