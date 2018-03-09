@@ -38,7 +38,7 @@ func New(i int, ranges map[string][3]float64) *Worker {
 	}
 }
 
-func (w *Worker) WorkFull(data []models.DataPoint, resultChn chan<- *Result) {
+func (w *Worker) Work(data []models.DataPoint, resultChn chan<- *Result) {
 	result := &Result{
 		J:   math.MaxFloat64,
 		End: false,
@@ -68,56 +68,6 @@ func (w *Worker) WorkFull(data []models.DataPoint, resultChn chan<- *Result) {
 						}
 					}
 				}
-			}
-		}
-	}
-	resultChn <- &Result{End: true}
-}
-
-func (w *Worker) WorkSmall(data []models.DataPoint, resultChn chan<- *Result) {
-	result := &Result{
-		J:   math.MaxFloat64,
-		End: false,
-	}
-	for a := w.A[0] + (w.A[1]-w.A[0])*w.I; a < w.A[0]+(w.A[1]-w.A[0])*(w.I+1); a += w.A[2] {
-		for b := w.B[0]; b < w.B[1]; b += w.B[2] {
-			for tc := w.Tc[0]; tc < w.Tc[1]; tc += w.Tc[2] {
-				for beta := w.Beta[0]; beta < w.Beta[1]; beta += w.Beta[2] {
-
-					cost := regression.SmallJ(a, b, tc, beta, data)
-					if cost < result.J {
-						result.J = cost
-
-						result.A = a
-						result.B = b
-						result.Tc = tc
-						result.Beta = beta
-
-						resultChn <- result
-					}
-				}
-			}
-		}
-	}
-	resultChn <- &Result{End: true}
-}
-
-func (w *Worker) WorkExp(result *Result, data []models.DataPoint, resultChn chan<- *Result) {
-	for c := w.C[0] + (w.C[1]-w.C[0])*w.I; c < w.C[0]+(w.C[1]-w.C[0])*(w.I+1); c += w.C[2] {
-		for omega := w.Omega[0]; omega < w.Omega[1]; omega += w.Omega[2] {
-			for phi := w.Phi[0]; phi < w.Phi[1]; phi += w.Phi[2] {
-
-				cost := regression.J(result.A, result.B, result.Tc, result.Beta, c, omega, phi, data)
-				if cost < result.J {
-					result.J = cost
-
-					result.C = c
-					result.Omega = omega
-					result.Phi = phi
-
-					resultChn <- result
-				}
-
 			}
 		}
 	}
