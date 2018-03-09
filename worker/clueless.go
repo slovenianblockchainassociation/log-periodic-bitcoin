@@ -26,15 +26,6 @@ func (c *Clueless) Start(dataSet []models.DataPoint, resultChn chan<- *Result) {
 
 func (c *Clueless) Work(dataSet []models.DataPoint) *Result {
 	params := regression.InitRandomParameters(false)
-	startParams := &regression.Parameters{
-		A:     params.A,
-		B:     params.B,
-		Tc:    params.Tc,
-		Beta:  params.Beta,
-		C:     params.C,
-		Omega: params.Omega,
-		Phi:   params.Phi,
-	}
 
 	minCost := math.MaxFloat64
 
@@ -53,6 +44,5 @@ func (c *Clueless) Work(dataSet []models.DataPoint) *Result {
 		i,
 		minCost,
 		params,
-		startParams,
 	}
 }
