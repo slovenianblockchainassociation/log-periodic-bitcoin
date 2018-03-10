@@ -69,3 +69,5 @@ We are interested in `tc` (critical time), which predicts the end of the bubble.
 Average critical time in basicRandomSearch.csv is `tc = 18.13 -> 16.2.2018`.
 More analysis needs to be done around the parameter space where mentioned solutions were found.
 Finding a log periodic pattern would further strengthen any predictions.
+
+![alt text](https://github.com/slovenianblockchainassociation/log-periodic-bitcoin/blob/master/results/btc_bubble.png)
