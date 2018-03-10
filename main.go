@@ -1,74 +1,80 @@
 package main
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"log-periodic-bitcoin/models"
-	"fmt"
 	"log-periodic-bitcoin/worker"
 	"math"
-	"os"
-	"strconv"
+	"flag"
+	"strings"
+	"log-periodic-bitcoin/config"
 )
-
-func limitDataSetByMaxDate(maxDate float64, dataSet []models.DataPoint) []models.DataPoint {
-	for i, v := range dataSet {
-		if v.Date > maxDate {
-			return dataSet[:i]
-		}
-	}
-	return dataSet
-}
 
 func main() {
 
-	// read data file
-	rawData, err := ioutil.ReadFile("data.json")
+	inputFile := flag.String("inputFile", config.DefaultDataSetFilePath, "Input dataset file.")
+	minDate := flag.Float64("minDate", config.DefaultMinDate, "Dataset will be cut off before this date. Example: 0 = 1.1.2000.")
+	maxDate := flag.Float64("maxDate", config.DefaultMaxDate, "Dataset will be cut off after this date. Example: 50 = 1.1.2050.")
+
+	dataSet, err := models.LoadDataSet(*inputFile, *minDate, *maxDate)
 	if err != nil {
 		panic(err)
 	}
 
-	// unmarshal rawData to data points
-	var dataSet []models.DataPoint
-	err = json.Unmarshal(rawData, &dataSet)
-	if err != nil {
-		panic(err)
-	}
-
-	dataSet = limitDataSetByMaxDate(17.95, dataSet)
+	mode := flag.String("mode", config.DefaultSearchMode, "Search mode: full, basic (default), periodic.")
+	workers := flag.Int("nWorkers", config.DefaultNumberOfWorkers, "Number of worker processes (default=1).")
 
 	results := make(chan *worker.Result)
-	minCost := math.MaxFloat64
 
-	workers := 1
+	if strings.Compare(*mode, "basic") == 0 {
 
-	if len(os.Args) > 1 {
-		workers, err = strconv.Atoi(os.Args[1])
-		if err != nil {
-			panic(err)
+		for i := 0; i < *workers; i++ {
+			clueless := worker.New(results)
+			go clueless.StartBasicSearch(dataSet)
 		}
+
+	} else if strings.Compare(*mode, "periodic") == 0 {
+
+		A := flag.Float64("A", math.NaN(), "Parameter A of the model. Set if starting periodic search.")
+		B := flag.Float64("B", math.NaN(), "Parameter B of the model. Set if starting periodic search.")
+		Tc := flag.Float64("Tc", math.NaN(), "Parameter Tc of the model. Set if starting periodic search.")
+		Beta := flag.Float64("Beta", math.NaN(), "Parameter Beta of the model. Set if starting periodic search.")
+
+		if math.IsNaN(*A) || math.IsNaN(*B) ||math.IsNaN(*Tc) ||math.IsNaN(*Beta) {
+			panic("Set all basic parameters if starting periodic search.")
+		}
+
+		for i := 0; i < *workers; i++ {
+			clueless := worker.New(results)
+			go clueless.StartPeriodicSearch(*A, *B, *Tc, *Beta, dataSet)
+		}
+
+	} else if strings.Compare(*mode, "full") == 0 {
+		for i := 0; i < *workers; i++ {
+			clueless := worker.New(results)
+			go clueless.StartFullSearch(dataSet)
+		}
+
+	} else {
+		panic("Invalid search mode requested.")
 	}
 
-	for i := 0; i < workers; i++ {
-		clueless := worker.NewClueless()
-		go clueless.Start(dataSet, results)
-	}
-
-	f, err := os.OpenFile("randomSearch.csv", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0600)
+	f, err := worker.OpenResultFile(*mode)
 	if err != nil {
 		panic(err)
 	}
 	defer f.Close()
 
+	minCost := math.MaxFloat64
+	// loop forever, wait for results and write the best in a file
 	for {
 		select {
 		case result := <- results:
-			if result.J >= minCost {
-				continue
-			}
-			minCost = result.J
-			if _, err = f.WriteString(fmt.Sprintf("%.4f;%.2f %.2f %.2f %.2f\n", result.J, result.Params.A, result.Params.B, result.Params.Tc, result.Params.Beta)); err != nil {
-				panic(err)
+			if result.J < minCost {
+				minCost = result.J
+				err = result.WriteResults(f)
+				if err != nil {
+					panic(err)
+				}
 			}
 		}
 	}

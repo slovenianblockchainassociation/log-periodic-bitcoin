@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"math"
 	"time"
+	"errors"
+	"io/ioutil"
 )
 
 type DataPoint struct {
@@ -33,4 +35,48 @@ func UnixToDecimal(u int64) float64 {
 	year := time.Date(t.Year(), time.December, 31, 0, 0, 0, 0, time.Local)
 
 	return float64(t.Year()) + float64(t.YearDay())/float64(year.YearDay()) - 2000
+}
+
+func limitDataSetByDate(minDate, maxDate float64, dataSet []DataPoint) ([]DataPoint, error) {
+	if maxDate - minDate <= 0 {
+		return nil, errors.New("maxDate before minDate")
+	}
+	if minDate > dataSet[len(dataSet)-1].Date {
+		return nil, errors.New("minDate after last point in dataSet")
+	}
+	if maxDate < dataSet[0].Date {
+		return nil, errors.New("maxDate before first point in dataSet")
+	}
+	start := -1
+	for i, v := range dataSet {
+		if start < 0 && v.Date > minDate {
+			start = i
+		}
+		if v.Date > maxDate {
+			return dataSet[start:i], nil
+		}
+	}
+	return dataSet[start:], nil
+}
+
+func LoadDataSet(filename string, minDate, maxDate float64) ([]DataPoint, error) {
+	// read data file
+	rawData, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return nil, err
+	}
+
+	// unmarshal rawData to data points
+	var dataSet []DataPoint
+	err = json.Unmarshal(rawData, &dataSet)
+	if err != nil {
+		return nil, err
+	}
+
+	// limit dataSet by minDate and maxDate
+	dataSet, err = limitDataSetByDate(minDate, maxDate, dataSet)
+	if err != nil {
+		return nil, err
+	}
+	return dataSet, nil
 }
