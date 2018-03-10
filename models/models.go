@@ -2,10 +2,10 @@ package models
 
 import (
 	"encoding/json"
-	"math"
-	"time"
 	"errors"
 	"io/ioutil"
+	"math"
+	"time"
 )
 
 type DataPoint struct {
@@ -38,7 +38,7 @@ func UnixToDecimal(u int64) float64 {
 }
 
 func limitDataSetByDate(minDate, maxDate float64, dataSet []DataPoint) ([]DataPoint, error) {
-	if maxDate - minDate <= 0 {
+	if maxDate-minDate <= 0 {
 		return nil, errors.New("maxDate before minDate")
 	}
 	if minDate > dataSet[len(dataSet)-1].Date {

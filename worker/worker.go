@@ -1,20 +1,20 @@
 package worker
 
 import (
-	"log-periodic-bitcoin/regression"
-	"math"
-	"log-periodic-bitcoin/models"
-	"os"
 	"fmt"
 	"log-periodic-bitcoin/config"
+	"log-periodic-bitcoin/models"
+	"log-periodic-bitcoin/regression"
+	"math"
+	"os"
 	"time"
 )
 
 type Result struct {
-	N           int64
-	J           float64
-	Params      *regression.Parameters
-	ExeTime     int64
+	N       int64
+	J       float64
+	Params  *regression.Parameters
+	ExeTime int64
 }
 
 func (r *Result) WriteResults(f *os.File) error {
@@ -26,7 +26,7 @@ func (r *Result) WriteResults(f *os.File) error {
 }
 
 func OpenResultFile(mode string) (*os.File, error) {
-	f, err := os.OpenFile(mode + config.ResultFileSufix, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+	f, err := os.OpenFile(mode+config.ResultFileSufix, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
 		return nil, err
 	}
@@ -116,4 +116,3 @@ func (w *Worker) FindFullParameters(dataSet []models.DataPoint) *Result {
 
 	return result
 }
-

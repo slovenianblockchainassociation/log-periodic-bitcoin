@@ -7,7 +7,7 @@ import (
 
 // f(t) = A + B*(Tc - t)^Beta * (1 + C*cos(Omega*ln(Tc - t) + Phi))
 func f(t float64, p *Parameters) float64 {
-	return p.A + p.B*math.Pow(p.Tc-t, p.Beta)*(1+p.C*math.Cos(p.Omega*math.Log(p.Tc-t) + p.Phi))
+	return p.A + p.B*math.Pow(p.Tc-t, p.Beta)*(1+p.C*math.Cos(p.Omega*math.Log(p.Tc-t)+p.Phi))
 }
 
 // cost function

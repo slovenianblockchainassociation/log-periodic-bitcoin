@@ -1,9 +1,9 @@
 package regression
 
 import (
+	"crypto/rand"
 	"math"
 	"math/big"
-	"crypto/rand"
 )
 
 // generate random from /dev/urandom
@@ -51,24 +51,24 @@ func InitRandomBasicParameters() *Parameters {
 
 func InitRandomPeriodicParameters(a, b, tc, beta float64) *Parameters {
 	return &Parameters{
-		A:    a,
-		B:    b,
-		Tc:   tc,
-		Beta: beta,
-		C: RandFloat64(10, 100) + 0.01,
+		A:     a,
+		B:     b,
+		Tc:    tc,
+		Beta:  beta,
+		C:     RandFloat64(10, 100) + 0.01,
 		Omega: RandFloat64(100, 4) + 5,
-		Phi: RandFloat64(1000, 500 / math.Pi),
+		Phi:   RandFloat64(1000, 500/math.Pi),
 	}
 }
 
 func InitRandomFullParameters() *Parameters {
 	return &Parameters{
-		A:    RandFloat64(10000, 100),
-		B:    -RandFloat64(10000, 100),
-		Tc:   RandFloat64(100, 50) + 18,
-		Beta: RandFloat64(50, 100) + 0.05,
-		C: RandFloat64(10, 100) + 0.01,
+		A:     RandFloat64(10000, 100),
+		B:     -RandFloat64(10000, 100),
+		Tc:    RandFloat64(100, 50) + 18,
+		Beta:  RandFloat64(50, 100) + 0.05,
+		C:     RandFloat64(10, 100) + 0.01,
 		Omega: RandFloat64(100, 4) + 5,
-		Phi: RandFloat64(1000, 500 / math.Pi),
+		Phi:   RandFloat64(1000, 500/math.Pi),
 	}
 }
