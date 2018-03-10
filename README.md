@@ -15,7 +15,6 @@ There is much talk about the bitcoin bubble due to huge price appreciation in 20
 ## Dependencies
 
 * [matplotlib](https://matplotlib.org/)
-* []
 
 ## Usage
 
@@ -57,4 +56,4 @@ or
 ```
 python plot.py A B tc beta C omega phi
 ```
-to plot results.
+to plot results. You need the same data file as for the analysis. (There is a maxDate limit in plot.py)
