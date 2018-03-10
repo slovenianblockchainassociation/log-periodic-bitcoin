@@ -62,15 +62,10 @@ to plot results. You need the same data file as for the analysis. (There is a ma
 
 10.3.2018
 
-Running basic random search on bitcoin data from poloniex (19.2.2015 - 13.12.2017) yields:
-```
-A = 22.63
-B = -15.6
-tc = 18.08
-beta = 0.09
-```
-Result we are interested in is `tc` (critical time), which predicts the end of the bubble.
-
-`tc = 18.08 -> 29.1.2018`
-
-The bubble already poped:) oops
+Analysis was done with bitcoin data from poloniex (19.2.2015 - 13.12.2017).
+There are several different parameter combinations that yield similar results (in terms of optimisation function mean squared error). 
+basicRandomSearch.csv lists best results from recent run.
+We are interested in `tc` (critical time), which predicts the end of the bubble.
+Average critical time in basicRandomSearch.csv is `tc = 18.13 -> 16.2.2018`.
+More analysis needs to be done around the parameter space where mentioned solutions were found.
+Finding a log periodic pattern would further strengthen any predictions.
