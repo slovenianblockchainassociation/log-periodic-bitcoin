@@ -57,3 +57,20 @@ or
 python plot.py A B tc beta C omega phi
 ```
 to plot results. You need the same data file as for the analysis. (There is a maxDate limit in plot.py)
+
+## Results
+
+10.3.2018
+
+Running basic random search on bitcoin data from poloniex (19.2.2015 - 13.12.2017) yields:
+```
+A = 22.63
+B = -15.6
+tc = 18.08
+beta = 0.09
+```
+Result we are interested in is `tc` (critical time), which predicts the end of the bubble.
+
+`tc = 18.08 -> 29.1.2018`
+
+The bubble already poped:) oops
