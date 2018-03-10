@@ -10,7 +10,7 @@ There is much talk about the bitcoin bubble due to huge price appreciation in 20
 
 ## Model
 
-![alt text](https://www.codecogs.com/eqnedit.php?latex=\inline&space;\log(p(t))&space;=&space;A&space;&plus;&space;B&space;(t_c&space;-&space;t)^{\beta}&space;(1&space;&plus;&space;C&space;\cos(\omega&space;\log(t_c-t)&plus;\phi)))
+![alt text](https://latex.codecogs.com/gif.latex?\inline&space;\log(p(t))&space;=&space;A&space;&plus;&space;B&space;(t_c&space;-&space;t)^{\beta}&space;(1&space;&plus;&space;C&space;\cos(\omega&space;\log(t_c-t)&plus;\phi)))
 
 ## Dependencies
 
