@@ -10,7 +10,7 @@ There is much talk about the bitcoin bubble due to huge price appreciation in 20
 
 ## Model
 
-\log(p(t)) = A + B(t_c - t)^{\beta} (1 + C(\cos(\omega\ln(t_c - t) + \phi)))
+![alt text](https://www.codecogs.com/eqnedit.php?latex=\inline&space;\log(p(t))&space;=&space;A&space;&plus;&space;B&space;(t_c&space;-&space;t)^{\beta}&space;(1&space;&plus;&space;C&space;\cos(\omega&space;\log(t_c-t)&plus;\phi))" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\log(p(t))&space;=&space;A&space;&plus;&space;B&space;(t_c&space;-&space;t)^{\beta}&space;(1&space;&plus;&space;C&space;\cos(\omega&space;\log(t_c-t)&plus;\phi))" title="\log(p(t)) = A + B (t_c - t)^{\beta} (1 + C \cos(\omega \log(t_c-t)+\phi))
 
 ## Dependencies
 
