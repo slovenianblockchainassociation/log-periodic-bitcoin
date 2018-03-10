@@ -60,6 +60,14 @@ if __name__ == '__main__':
 		y_fit = [f(i, A, B, tc, beta, C, omega, phi) for i in x]
 		print J(data, A, B, tc, beta, C, omega, phi)
 
-	plt.plot(x, y)
-	plt.plot(x, y_fit)
+	plt.plot(x, y, label='BTC/USDT price')
+	plt.plot(x, y_fit, label='best model fit')
+
+	plt.semilogy()
+	plt.title('BTC/USDT - Poloniex, 19.2.2015-13.12.2017')
+	plt.xlabel('time [years]')
+	plt.ylabel('log(price) [USDT]')
+	plt.legend()
+	plt.show()
+
 	plt.show()
