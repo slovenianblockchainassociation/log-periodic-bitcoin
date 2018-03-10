@@ -7,12 +7,14 @@ import (
 	"os"
 	"fmt"
 	"log-periodic-bitcoin/config"
+	"time"
 )
 
 type Result struct {
-	N           int
+	N           int64
 	J           float64
 	Params      *regression.Parameters
+	ExeTime     int64
 }
 
 func (r *Result) WriteResults(f *os.File) error {
@@ -41,41 +43,30 @@ func New(resultChn chan<- *Result) *Worker {
 }
 
 func (w *Worker) StartBasicSearch(dataSet []models.DataPoint) {
-	minCost := math.MaxFloat64
 	for {
 		result := w.FindBasicParameters(dataSet)
-		if result.J < minCost {
-			minCost = result.J
-			w.resultChn <- result
-		}
+		w.resultChn <- result
 	}
 }
 
 func (w *Worker) StartPeriodicSearch(a, b, tc, beta float64, dataSet []models.DataPoint) {
-	minCost := math.MaxFloat64
 	for {
 		result := w.FindPeriodicParameters(a, b, tc, beta, dataSet)
-		if result.J < minCost {
-			minCost = result.J
-			w.resultChn <- result
-		}
+		w.resultChn <- result
 	}
 }
 
 func (w *Worker) StartFullSearch(dataSet []models.DataPoint) {
-	minCost := math.MaxFloat64
 	for {
 		result := w.FindFullParameters(dataSet)
-		if result.J < minCost {
-			minCost = result.J
-			w.resultChn <- result
-		}
+		w.resultChn <- result
 	}
 }
 
 func (w *Worker) FindBasicParameters(dataSet []models.DataPoint) *Result {
 	result := &Result{J: math.MaxFloat64}
 
+	start := time.Now().Unix()
 	for result.N < config.NWorkerIterations {
 		tmpParams := regression.InitRandomBasicParameters()
 		cost := regression.J(dataSet, tmpParams)
@@ -85,6 +76,7 @@ func (w *Worker) FindBasicParameters(dataSet []models.DataPoint) *Result {
 		}
 		result.N++
 	}
+	result.ExeTime = time.Now().Unix() - start
 
 	return result
 }
@@ -92,6 +84,7 @@ func (w *Worker) FindBasicParameters(dataSet []models.DataPoint) *Result {
 func (w *Worker) FindPeriodicParameters(a, b, tc, beta float64, dataSet []models.DataPoint) *Result {
 	result := &Result{J: math.MaxFloat64}
 
+	start := time.Now().Unix()
 	for result.N < config.NWorkerIterations {
 		tmpParams := regression.InitRandomPeriodicParameters(a, b, tc, beta)
 		cost := regression.J(dataSet, tmpParams)
@@ -101,6 +94,7 @@ func (w *Worker) FindPeriodicParameters(a, b, tc, beta float64, dataSet []models
 		}
 		result.N++
 	}
+	result.ExeTime = time.Now().Unix() - start
 
 	return result
 }
@@ -108,6 +102,7 @@ func (w *Worker) FindPeriodicParameters(a, b, tc, beta float64, dataSet []models
 func (w *Worker) FindFullParameters(dataSet []models.DataPoint) *Result {
 	result := &Result{J: math.MaxFloat64}
 
+	start := time.Now().Unix()
 	for result.N < config.NWorkerIterations {
 		tmpParams := regression.InitRandomFullParameters()
 		cost := regression.J(dataSet, tmpParams)
@@ -117,6 +112,7 @@ func (w *Worker) FindFullParameters(dataSet []models.DataPoint) *Result {
 		}
 		result.N++
 	}
+	result.ExeTime = time.Now().Unix() - start
 
 	return result
 }
