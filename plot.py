@@ -5,6 +5,9 @@ import math
 import sys
 import numpy as np
 
+labelFormatBasic = 'A={} B={} tc={} beta={}'
+labelFormatFull = 'A={} B={} tc={} beta={} C={} omega={} phi={}'
+
 def limitDataSetByMaxDate(maxDate, data):
 	for i in range(len(data)):
 		if UnixToDecimal(data[i]['date']) > maxDate:
@@ -60,8 +63,13 @@ if __name__ == '__main__':
 		y_fit = [f(i, A, B, tc, beta, C, omega, phi) for i in x]
 		print J(data, A, B, tc, beta, C, omega, phi)
 
+	labelText = labelFormatBasic.format(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+
+	if len(sys.argv) == 8:
+		labelText = labelFormatFull.format(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
+
 	plt.plot(x, y, label='BTC/USDT price')
-	plt.plot(x, y_fit, label='best model fit')
+	plt.plot(x, y_fit, label=labelText)
 
 	plt.semilogy()
 	plt.title('BTC/USDT - Poloniex, 19.2.2015-13.12.2017')
