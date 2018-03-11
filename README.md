@@ -6,7 +6,19 @@ This repo hosts tools for log periodic parameter analysis as described in [Why S
 
 ## Motivation
 
-There is much talk about the bitcoin bubble due to huge price appreciation in 2017. It reasonable to try to quantify what a bubble means and possibly predicts when it will pop. Quick seach reveals a lot of work around financial bubble prediction was done by Didier Sornette. He took the approach of applying crytical events analysis from physics...
+There is much talk in the general public about the bitcoin bubble due to huge price appreciation in 2017. 
+Let's try to quantify this bubble and maybe predict it's end. 
+Quick google search shows that a lot of work around financial bubble prediction was done by Didier Sornette. 
+
+## Theory
+
+Didier Sornette came up with a mathematical model that describes price appreciation in a bubble and predicts when is the highest probability that the bubble will pop.
+In essence there are noise traders and informed traders trading with each other on the market. 
+Usually hearding (everyone trading in the same direction) is very weak, but when strong, big sell-offs or up trends happen.
+In a bubble informed traders stay in the market as long as their reward (price appreciation) is higher then the crash hazard rate.
+This means that price `p(t)` depends on crash hazard rate. Crash hazard rate is a function of time that also depends on the price. 
+There is a higher probability of a price decline (crash), if price went up without any change in the fundamentals.
+When reward is lower then crash hazard rate, informed traders exit the market. It is very likely that this will trigger a hearding effect with the noise traders.
 
 ## Model
 
@@ -14,6 +26,7 @@ There is much talk about the bitcoin bubble due to huge price appreciation in 20
 
 ## Dependencies
 
+* [golang](https://golang.org/)
 * [matplotlib](https://matplotlib.org/)
 
 ## Usage
