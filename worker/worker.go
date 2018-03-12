@@ -26,7 +26,7 @@ func (r *Result) WriteResults(f *os.File) error {
 }
 
 func OpenResultFile(mode string) (*os.File, error) {
-	f, err := os.OpenFile(mode+config.ResultFileSufix, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+	f, err := os.OpenFile(config.ResultsFilePrefix+mode+config.ResultFileSufix, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
 		return nil, err
 	}
