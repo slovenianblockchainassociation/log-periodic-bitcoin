@@ -28,6 +28,11 @@ func main() {
 	reportSpeed := flag.Bool("s", false, "Use this flag to turn on execution speed reporting.")
 
 	flag.Parse()
+
+	// reset maxDate if Tc is set before maxDate
+	if !math.IsNaN(*Tc) && *Tc < *maxDate {
+		*maxDate = *Tc
+	}
 	// ----------------------------------------------
 
 	// load data set --------------------------------
