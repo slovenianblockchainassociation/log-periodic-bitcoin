@@ -84,3 +84,9 @@ More analysis needs to be done around the parameter space where mentioned soluti
 Finding a log periodic pattern would further strengthen any predictions.
 
 ![alt text](https://github.com/slovenianblockchainassociation/log-periodic-bitcoin/blob/master/results/btc_bubble.png)
+
+12.3.2018
+
+Check periodicRandomSearch.csv for periodic search results.
+
+![alt text](https://github.com/slovenianblockchainassociation/log-periodic-bitcoin/blob/master/results/btc_bubble_logperiodic.png)
