@@ -55,7 +55,7 @@ func InitRandomPeriodicParameters(a, b, tc, beta float64) *Parameters {
 		B:     b,
 		Tc:    tc,
 		Beta:  beta,
-		C:     RandFloat64(10, 100) + 0.01,
+		C:     RandFloat64(10, 1000) + 0.001,
 		Omega: RandFloat64(100, 4) + 5,
 		Phi:   RandFloat64(1000, 500/math.Pi),
 	}
@@ -67,7 +67,7 @@ func InitRandomFullParameters() *Parameters {
 		B:     -RandFloat64(10000, 100),
 		Tc:    RandFloat64(100, 50) + 18,
 		Beta:  RandFloat64(50, 100) + 0.05,
-		C:     RandFloat64(10, 100) + 0.01,
+		C:     RandFloat64(10, 1000) + 0.01,
 		Omega: RandFloat64(100, 4) + 5,
 		Phi:   RandFloat64(1000, 500/math.Pi),
 	}
