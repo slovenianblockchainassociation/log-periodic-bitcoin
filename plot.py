@@ -8,10 +8,13 @@ import numpy as np
 labelFormatBasic = 'A={} B={} tc={} beta={}'
 labelFormatFull = 'A={} B={} tc={} beta={} C={} omega={} phi={}'
 
-def limitDataSetByMaxDate(maxDate, data):
+def limitDataSetByMaxDate(minDate, maxDate, data):
+	start = -1
 	for i in range(len(data)):
+		if start < 0 and UnixToDecimal(data[i]['date']) > minDate:
+			start = i
 		if UnixToDecimal(data[i]['date']) > maxDate:
-			return data[:i]
+			return data[start:i]
 	return data
 
 def UnixToDecimal(timestamp):
@@ -50,7 +53,7 @@ if __name__ == '__main__':
 	with open('data.json', 'r') as g:
 		data = json.loads(g.read())
 
-	data = limitDataSetByMaxDate(17.95, data)
+	data = limitDataSetByMaxDate(17.2, 17.95, data)
 
 	x = [UnixToDecimal(i['date']) for i in data]
 	y = [math.log(float(i['close'])) for i in data]
