@@ -30,6 +30,10 @@ func OpenResultFile(mode string) (*os.File, error) {
 	if err != nil {
 		return nil, err
 	}
+	_, err = f.WriteString(fmt.Sprintf("-----------New run started - %v ------------", time.Now()))
+	if err != nil {
+		return nil, err
+	}
 	return f, nil
 }
 
