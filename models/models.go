@@ -34,7 +34,7 @@ func UnixToDecimal(u int64) float64 {
 	t := time.Unix(u, 0)
 	year := time.Date(t.Year(), time.December, 31, 0, 0, 0, 0, time.Local)
 
-	return float64(t.Year()) + float64(t.YearDay())/float64(year.YearDay()) - 2000
+	return float64(t.Year()) + (float64(t.YearDay()) + float64(t.Hour()) / 24)/float64(year.YearDay()) - 2000
 }
 
 func limitDataSetByDate(minDate, maxDate float64, dataSet []DataPoint) ([]DataPoint, error) {
