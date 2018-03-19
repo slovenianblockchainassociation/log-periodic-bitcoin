@@ -38,12 +38,12 @@ func OpenResultFile(mode string) (*os.File, error) {
 }
 
 type Worker struct {
-	nIter int
+	nIter int64
 	resultChn chan<- *Result
 }
 
 // this is a random search implementation
-func New(nIter int, resultChn chan<- *Result) *Worker {
+func New(nIter int64, resultChn chan<- *Result) *Worker {
 	return &Worker{nIter, resultChn}
 }
 

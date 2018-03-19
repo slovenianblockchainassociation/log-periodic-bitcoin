@@ -49,7 +49,7 @@ func main() {
 	if strings.Compare(*mode, "basic") == 0 {
 
 		for i := 0; i < *workers; i++ {
-			clueless := worker.New(*nIter, results)
+			clueless := worker.New(int64(*nIter), results)
 			go clueless.StartBasicSearch(dataSet)
 		}
 
@@ -60,13 +60,13 @@ func main() {
 		}
 
 		for i := 0; i < *workers; i++ {
-			clueless := worker.New(*nIter, results)
+			clueless := worker.New(int64(*nIter), results)
 			go clueless.StartPeriodicSearch(*A, *B, *Tc, *Beta, dataSet)
 		}
 
 	} else if strings.Compare(*mode, "full") == 0 {
 		for i := 0; i < *workers; i++ {
-			clueless := worker.New(*nIter, results)
+			clueless := worker.New(int64(*nIter), results)
 			go clueless.StartFullSearch(dataSet)
 		}
 
