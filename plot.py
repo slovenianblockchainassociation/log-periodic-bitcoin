@@ -47,6 +47,10 @@ if __name__ == '__main__':
 		beta = float(sys.argv[4])
 
 	if len(sys.argv) == 8:
+		A = float(sys.argv[1])
+		B = float(sys.argv[2])
+		tc = float(sys.argv[3])
+		beta = float(sys.argv[4])
 		C = float(sys.argv[5])
 		omega = float(sys.argv[6])
 		phi = float(sys.argv[7])
