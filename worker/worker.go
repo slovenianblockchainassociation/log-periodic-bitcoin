@@ -38,12 +38,13 @@ func OpenResultFile(mode string) (*os.File, error) {
 }
 
 type Worker struct {
+	nIter int
 	resultChn chan<- *Result
 }
 
 // this is a random search implementation
-func New(resultChn chan<- *Result) *Worker {
-	return &Worker{resultChn}
+func New(nIter int, resultChn chan<- *Result) *Worker {
+	return &Worker{nIter, resultChn}
 }
 
 func (w *Worker) StartBasicSearch(dataSet []models.DataPoint) {
@@ -71,7 +72,7 @@ func (w *Worker) FindBasicParameters(dataSet []models.DataPoint) *Result {
 	result := &Result{J: math.MaxFloat64}
 
 	start := time.Now().Unix()
-	for result.N < config.NWorkerIterations {
+	for result.N < w.nIter {
 		tmpParams := regression.InitRandomBasicParameters()
 		cost := regression.J(dataSet, tmpParams)
 		if cost < result.J {
@@ -89,7 +90,7 @@ func (w *Worker) FindPeriodicParameters(a, b, tc, beta float64, dataSet []models
 	result := &Result{J: math.MaxFloat64}
 
 	start := time.Now().Unix()
-	for result.N < config.NWorkerIterations {
+	for result.N < w.nIter {
 		tmpParams := regression.InitRandomPeriodicParameters(a, b, tc, beta)
 		cost := regression.J(dataSet, tmpParams)
 		if cost < result.J {
@@ -107,7 +108,7 @@ func (w *Worker) FindFullParameters(dataSet []models.DataPoint) *Result {
 	result := &Result{J: math.MaxFloat64}
 
 	start := time.Now().Unix()
-	for result.N < config.NWorkerIterations {
+	for result.N < w.nIter {
 		tmpParams := regression.InitRandomFullParameters()
 		cost := regression.J(dataSet, tmpParams)
 		if cost < result.J {

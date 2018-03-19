@@ -19,6 +19,7 @@ func main() {
 
 	mode := flag.String("mode", config.DefaultSearchMode, "Search mode: full, basic , periodic.")
 	workers := flag.Int("workers", config.DefaultNumberOfWorkers, "Number of worker processes.")
+	nIter := flag.Int("nIter", config.DefaultNIterations, "Number of iterations per worker.")
 
 	A := flag.Float64("A", math.NaN(), "Parameter A of the model. Set if starting periodic search.")
 	B := flag.Float64("B", math.NaN(), "Parameter B of the model. Set if starting periodic search.")
@@ -48,7 +49,7 @@ func main() {
 	if strings.Compare(*mode, "basic") == 0 {
 
 		for i := 0; i < *workers; i++ {
-			clueless := worker.New(results)
+			clueless := worker.New(*nIter, results)
 			go clueless.StartBasicSearch(dataSet)
 		}
 
@@ -59,13 +60,13 @@ func main() {
 		}
 
 		for i := 0; i < *workers; i++ {
-			clueless := worker.New(results)
+			clueless := worker.New(*nIter, results)
 			go clueless.StartPeriodicSearch(*A, *B, *Tc, *Beta, dataSet)
 		}
 
 	} else if strings.Compare(*mode, "full") == 0 {
 		for i := 0; i < *workers; i++ {
-			clueless := worker.New(results)
+			clueless := worker.New(*nIter, results)
 			go clueless.StartFullSearch(dataSet)
 		}
 
