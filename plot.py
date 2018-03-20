@@ -36,29 +36,33 @@ def J(data, A, B, tc, beta, C, omega, phi):
 
 if __name__ == '__main__':
 	
-	if len(sys.argv) not in [1, 5, 8]:
+	if len(sys.argv) not in [4, 8, 11]:
 		print "Not enough arguments"
 		sys.exit(1)
 
-	if len(sys.argv) == 5:
-		A = float(sys.argv[1])
-		B = float(sys.argv[2])
-		tc = float(sys.argv[3])
-		beta = float(sys.argv[4])
+	filename = sys.argv[1]
+	minDate = float(sys.argv[2])
+	maxDate = float(sys.argv[3])
 
 	if len(sys.argv) == 8:
-		A = float(sys.argv[1])
-		B = float(sys.argv[2])
-		tc = float(sys.argv[3])
-		beta = float(sys.argv[4])
-		C = float(sys.argv[5])
-		omega = float(sys.argv[6])
-		phi = float(sys.argv[7])
+		A = float(sys.argv[4])
+		B = float(sys.argv[5])
+		tc = float(sys.argv[6])
+		beta = float(sys.argv[7])
 
-	with open('data_eth_4h.json', 'r') as g:
+	if len(sys.argv) == 11:
+		A = float(sys.argv[4])
+		B = float(sys.argv[5])
+		tc = float(sys.argv[6])
+		beta = float(sys.argv[7])
+		C = float(sys.argv[8])
+		omega = float(sys.argv[9])
+		phi = float(sys.argv[10])
+
+	with open(filename, 'r') as g:
 		data = json.loads(g.read())
 
-	data = limitDataSetByMaxDate(16.9, 17.4, data)
+	data = limitDataSetByMaxDate(minDate, maxDate, data)
 
 	x = [UnixToDecimal(i['date']) for i in data]
 	y = [math.log(float(i['close'])) for i in data]
@@ -67,18 +71,18 @@ if __name__ == '__main__':
 	plt.plot(x, y, label='BTC/USDT price')
 
 	plt.semilogy()
-	plt.title('BTC/USDT - Poloniex, 19.2.2015-13.12.2017')
+	# plt.title('BTC/USDT - Poloniex, 19.2.2015-13.12.2017')
 	plt.xlabel('time [years]')
 	plt.ylabel('log(price) [USDT]')
 
-	if len(sys.argv) == 5:
+	if len(sys.argv) == 8:
 		y_fit = [f(i, A, B, tc, beta, 0, 0, 0) for i in x]
 		print J(data, A, B, tc, beta, 0, 0, 0)
 
 		labelText = labelFormatBasic.format(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
 		plt.plot(x, y_fit, label=labelText)
 
-	if len(sys.argv) == 8:
+	if len(sys.argv) == 11:
 		y_fit = [f(i, A, B, tc, beta, C, omega, phi) for i in x]
 		print J(data, A, B, tc, beta, C, omega, phi)
 
