@@ -33,10 +33,10 @@ When reward is lower then crash hazard rate, informed traders exit the market. I
 
 Run
 ```bash
-$ python get_data.py
+$ python get_data.py (get_coinmarketcap_data.py)
 ``` 
 
-to get the latest data from poloniex. Note that current version needs daily data.
+to get the latest data from poloniex or coinmarketcap.
 
 Plot some graphs before running random search
 ```bash
