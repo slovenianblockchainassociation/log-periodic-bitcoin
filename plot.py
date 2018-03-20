@@ -9,13 +9,19 @@ labelFormatBasic = 'A={} B={} tc={} beta={}'
 labelFormatFull = 'A={} B={} tc={} beta={} C={} omega={} phi={}'
 
 def limitDataSetByMaxDate(minDate, maxDate, data):
+	if minDate >= maxDate:
+		return []
+	if minDate > UnixToDecimal(data[-1]['date']):
+		return []
+	if maxDate < UnixToDecimal(data[0]['date']):
+		return []
 	start = -1
 	for i in range(len(data)):
 		if start < 0 and UnixToDecimal(data[i]['date']) > minDate:
 			start = i
 		if UnixToDecimal(data[i]['date']) > maxDate:
 			return data[start:i]
-	return data
+	return data[start:]
 
 def UnixToDecimal(timestamp):
 	dt = datetime.datetime.fromtimestamp(timestamp)
@@ -70,7 +76,7 @@ if __name__ == '__main__':
 
 	plt.plot(x, y, label='BTC/USDT price')
 
-	plt.semilogy()
+	# plt.semilogy()
 	# plt.title('BTC/USDT - Poloniex, 19.2.2015-13.12.2017')
 	plt.xlabel('time [years]')
 	plt.ylabel('log(price) [USDT]')
