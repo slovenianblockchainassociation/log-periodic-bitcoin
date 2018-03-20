@@ -38,6 +38,12 @@ $ python get_data.py
 
 to get the latest data from poloniex. Note that current version needs daily data.
 
+Plot some graphs before running random search
+```bash
+python plot.py filename minDate maxDate
+```
+to guess random initialization. Set random initialisation in regression/parameters.go.
+
 Run
 ```bash
 go build
@@ -56,20 +62,20 @@ Run
 ```
 to run a search for basic parameters. See help to run with more parallel processes, other search modes, etc.
 
-Results will be saved in a .csv file which has the following header
+Results will be saved in a .csv file (default in results/) which has the following header
 ```
 cost;A B tc beta C omega phi 
 ```
 
 Run
 ```bash
-python plot.py A B tc beta
+python plot.py filename minDate maxDate A B tc beta
 ```
 or
 ```
-python plot.py A B tc beta C omega phi
+python plot.py filename minDate maxDate A B tc beta C omega phi
 ```
-to plot results. You need the same data file as for the analysis. (There is a maxDate limit in plot.py)
+to plot results. Use the same file (filename argument) as for the analysis.
 
 ## Results
 
