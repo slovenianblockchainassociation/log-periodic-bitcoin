@@ -79,14 +79,14 @@ if __name__ == '__main__':
 		y_fit = [f(i, A, B, tc, beta, 0, 0, 0) for i in x]
 		print J(data, A, B, tc, beta, 0, 0, 0)
 
-		labelText = labelFormatBasic.format(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+		labelText = labelFormatBasic.format(A, B, Tc, Beta)
 		plt.plot(x, y_fit, label=labelText)
 
 	if len(sys.argv) == 11:
 		y_fit = [f(i, A, B, tc, beta, C, omega, phi) for i in x]
 		print J(data, A, B, tc, beta, C, omega, phi)
 
-		labelText = labelFormatFull.format(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
+		labelText = labelFormatFull.format(A, B, tc, beta, C, omega, phi)
 		plt.plot(x, y_fit, label=labelText)
 
 	plt.legend()
