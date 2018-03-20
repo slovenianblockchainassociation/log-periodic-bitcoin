@@ -96,3 +96,11 @@ Finding a log periodic pattern would further strengthen any predictions.
 Check periodicRandomSearch.csv for periodic search results.
 
 ![alt text](https://github.com/slovenianblockchainassociation/log-periodic-bitcoin/blob/master/results/btc_bubble_logperiodic.png)
+
+20.3.2018
+
+![alt text](https://github.com/slovenianblockchainassociation/log-periodic-bitcoin/blob/master/results/eth_bubble.png)
+
+![alt text](https://github.com/slovenianblockchainassociation/log-periodic-bitcoin/blob/master/results/crypto_bubble_2013.png)
+
+![alt text](https://github.com/slovenianblockchainassociation/log-periodic-bitcoin/blob/master/results/crypto_bubble_2017.png)
