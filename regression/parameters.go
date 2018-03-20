@@ -40,11 +40,11 @@ func InitParameters(a, b, tc, beta, c, omega, phi float64) *Parameters {
 	}
 }
 
-func InitRandomBasicParameters() *Parameters {
+func InitRandomBasicParameters(maxDate float64) *Parameters {
 	return &Parameters{
 		A:    RandFloat64(10000, 100),
 		B:    -RandFloat64(10000, 100),
-		Tc:   RandFloat64(100, 50) + 18,
+		Tc:   RandFloat64(100, 50) + maxDate,
 		Beta: RandFloat64(50, 100) + 0.05,
 	}
 }
@@ -61,13 +61,13 @@ func InitRandomPeriodicParameters(a, b, tc, beta float64) *Parameters {
 	}
 }
 
-func InitRandomFullParameters() *Parameters {
+func InitRandomFullParameters(maxDate float64) *Parameters {
 	return &Parameters{
 		A:     RandFloat64(10000, 100),
 		B:     -RandFloat64(10000, 100),
-		Tc:    RandFloat64(100, 50) + 18,
+		Tc:    RandFloat64(100, 50) + maxDate,
 		Beta:  RandFloat64(50, 100) + 0.05,
-		C:     RandFloat64(10, 1000) + 0.01,
+		C:     RandFloat64(10, 1000) + 0.001,
 		Omega: RandFloat64(100, 4) + 5,
 		Phi:   RandFloat64(1000, 500/math.Pi),
 	}

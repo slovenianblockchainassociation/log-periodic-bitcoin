@@ -73,7 +73,7 @@ func (w *Worker) FindBasicParameters(dataSet []models.DataPoint) *Result {
 
 	start := time.Now().Unix()
 	for result.N < w.nIter {
-		tmpParams := regression.InitRandomBasicParameters()
+		tmpParams := regression.InitRandomBasicParameters(dataSet[len(dataSet)-1].Date)
 		cost := regression.J(dataSet, tmpParams)
 		if cost < result.J {
 			result.J = cost
@@ -109,7 +109,7 @@ func (w *Worker) FindFullParameters(dataSet []models.DataPoint) *Result {
 
 	start := time.Now().Unix()
 	for result.N < w.nIter {
-		tmpParams := regression.InitRandomFullParameters()
+		tmpParams := regression.InitRandomFullParameters(dataSet[len(dataSet)-1].Date)
 		cost := regression.J(dataSet, tmpParams)
 		if cost < result.J {
 			result.J = cost
