@@ -74,10 +74,10 @@ if __name__ == '__main__':
 	y = [math.log(float(i['close'])) for i in data]
 	# y = [float(i['close']) for i in data]
 
-	plt.plot(x, y, label='BTC/USDT price')
+	plt.plot(x, y, label='ETH/USDT')
 
 	# plt.semilogy()
-	# plt.title('BTC/USDT - Poloniex, 19.2.2015-13.12.2017')
+	plt.title('ETH/USDT - Poloniex, 1.1.2017-25.7.2017')
 	plt.xlabel('time [years]')
 	plt.ylabel('log(price) [USDT]')
 
@@ -85,7 +85,7 @@ if __name__ == '__main__':
 		y_fit = [f(i, A, B, tc, beta, 0, 0, 0) for i in x]
 		print J(data, A, B, tc, beta, 0, 0, 0)
 
-		labelText = labelFormatBasic.format(A, B, Tc, Beta)
+		labelText = labelFormatBasic.format(A, B, tc, beta)
 		plt.plot(x, y_fit, label=labelText)
 
 	if len(sys.argv) == 11:
