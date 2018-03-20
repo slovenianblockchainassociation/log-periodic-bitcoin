@@ -25,12 +25,12 @@ func (r *Result) WriteResults(f *os.File) error {
 	return nil
 }
 
-func OpenResultFile(mode string, minDate, maxDate float64) (*os.File, error) {
+func OpenResultFile(mode, dataFilename string, minDate, maxDate float64) (*os.File, error) {
 	f, err := os.OpenFile(config.ResultsFilePrefix+mode+config.ResultFileSufix, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
 		return nil, err
 	}
-	_, err = f.WriteString(fmt.Sprintf("-----------New run started - %v ------------ filename=%v minDate=%v maxDate=%v \n", time.Now(), f.Name(), minDate, maxDate))
+	_, err = f.WriteString(fmt.Sprintf("-----------New run started - %v ------------ filename=%v minDate=%v maxDate=%v \n", time.Now(), dataFilename, minDate, maxDate))
 	if err != nil {
 		return nil, err
 	}

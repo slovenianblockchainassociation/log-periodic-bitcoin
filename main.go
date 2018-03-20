@@ -76,7 +76,7 @@ func main() {
 	// -----------------------------------------------
 
 	// open result file ------------------------------
-	f, err := worker.OpenResultFile(*mode, *minDate, *maxDate)
+	f, err := worker.OpenResultFile(*mode, *inputFile, *minDate, *maxDate)
 	if err != nil {
 		panic(err)
 	}
