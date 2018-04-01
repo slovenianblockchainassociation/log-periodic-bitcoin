@@ -89,20 +89,18 @@ func main() {
 	var iterations int64
 
 	for {
-		select {
-		case result := <-results:
-			if result.J < minCost {
-				minCost = result.J
-				err = result.WriteResults(f)
-				if err != nil {
-					panic(err)
-				}
+		result := <-results
+		if result.J < minCost {
+			minCost = result.J
+			err = result.WriteResults(f)
+			if err != nil {
+				panic(err)
 			}
-			if *reportSpeed {
-				cumTime += result.ExeTime
-				iterations += result.N
-				log.Printf("%d seconds for %.0e iterations. Average speed: %d ops/sec.", result.ExeTime, float64(result.N), int64(*workers)*iterations/cumTime)
-			}
+		}
+		if *reportSpeed {
+			cumTime += result.ExeTime
+			iterations += result.N
+			log.Printf("%d seconds for %.0e iterations. Average speed: %d ops/sec.", result.ExeTime, float64(result.N), int64(*workers)*iterations/cumTime)
 		}
 	}
 	// -----------------------------------------------
